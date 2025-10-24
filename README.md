@@ -70,6 +70,23 @@ Where:
 
 <hr>
 
+<h2>📂 Project Structure</h2>
+
+<pre><code>
+Hohmann-Transfer-Calculator-for-the-Solar-System/
+├── calculator.py    # Main program file
+├── hesaplayıcı.py   # Turkish program file
+└── README.md        # Project documentation (this file)
+</code></pre>
+
+<hr>
+
+<h2>📚 Dependencies</h2>
+
+<p>No external dependencies are required. The script uses only Python's built-in <code>math</code> library.</p>
+
+<pre><code>import math</code></pre>
+
 <h2>💻 How to Use</h2>
 
 <ol>
@@ -89,9 +106,9 @@ Where:
   </li>
 </ol>
 
-<p>
-Example Output (Earth → Mars):
-</p>
+<h2>
+🌍 Example Output (Earth → Mars):
+</h2>
 
 <pre><code>
 === RESULTS ===
@@ -104,28 +121,9 @@ Phase angle required = 44.3°
 Wait time = 142.6 days
 </code></pre>
 
-<hr>
 
-<h2>📂 Project Structure</h2>
 
-<pre><code>
-Hohmann-Transfer-Calculator-for-the-Solar-System/
-├── calculator.py    # Main program file
-├── hesaplayıcı.py   # Turkish program file
-└── README.md        # Project documentation (this file)
-</code></pre>
-
-<hr>
-
-<h2>📚 Dependencies</h2>
-
-<p>No external dependencies are required. The script uses only Python's built-in <code>math</code> library.</p>
-
-<pre><code>import math</code></pre>
-
-<hr>
-
-<h2>🌍 Applications</h2>
+<h2> Applications & Future Improvements</h2>
 
 <ul>
   <li>Space mission design and trajectory planning</li>
@@ -133,9 +131,6 @@ Hohmann-Transfer-Calculator-for-the-Solar-System/
   <li>Research simulations in astrophysics or aerospace studies</li>
 </ul>
 
-<hr>
-
-<h2>🧠 Future Improvements</h2>
 
 <ul>
   <li>Add 3D orbit inclination and eccentricity effects</li>
