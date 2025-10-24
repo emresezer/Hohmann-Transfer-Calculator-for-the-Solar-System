@@ -200,7 +200,9 @@ If negative, the synodic period is added:
 <pre><code>
 Hohmann-Transfer-Calculator-for-the-Solar-System/
 ├── calculator.py    # Main program file
+├── harita.py        # Turkish map file
 ├── hesaplayıcı.py   # Turkish program file
+├── harita.py        # Main map file
 └── README.md        # Project documentation (this file)
 </code></pre>
 
