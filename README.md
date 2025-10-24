@@ -42,31 +42,156 @@ All computations are made using <b>analytical orbital mechanics formulas</b> and
 
 <hr>
 
-<h2>🧮 Physics Background</h2>
+<h2>🧭 Universal Constants and Units</h2>
 
 <p>
-The Hohmann transfer orbit is the most fuel-efficient two-impulse transfer between two coplanar circular orbits around the same central body (e.g., the Sun).  
-The calculator uses the following key equations:
-</p>
-
-<pre><code>
-a_transfer = (r1 + r2) / 2
-t_transfer = π * sqrt(a_transfer³ / GM_sun)
-Δv_depart  = |√(GM_sun / r1) * (√(2r2 / (r1 + r2)) - 1)|
-Δv_arrive  = |√(GM_sun / r2) * (1 - √(2r1 / (r1 + r2)))|
-φ_required = π - n_target * t_transfer
-</code></pre>
-
-<p>
-Where:
+The program uses the following physical constants and reference units, all expressed in <b>SI (metric)</b> form.  
+These constants define the gravitational environment of the Solar System for Hohmann transfer computations.
 </p>
 
 <ul>
-  <li><b>r₁</b> – radius of the initial orbit (m)</li>
-  <li><b>r₂</b> – radius of the target orbit (m)</li>
-  <li><b>n</b> – mean motion = √(GM / r³)</li>
-  <li><b>GM_sun</b> – gravitational parameter of the Sun</li>
+  <li><b>Universal Gravitational Constant:</b>  
+  <code>G = 6.67430 × 10⁻¹¹ m³·kg⁻¹·s⁻²</code></li>
+
+  <li><b>Solar Mass:</b>  
+  <code>M☉ = 1.989 × 10³⁰ kg</code></li>
+
+  <li><b>Astronomical Unit (AU):</b>  
+  <code>1 AU = 1.496 × 10¹¹ m</code></li>
+
+  <li><b>Earth Radius and Low Earth Orbit (LEO) Example:</b>  
+  <code>R⊕ = 6.371 × 10⁶ m</code>,  
+  <code>LEO = R⊕ + 3.00 × 10⁵ m</code></li>
+
+  <li><b>Time Conversions:</b>  
+  <code>1 day = 86,400 s</code>,  
+  <code>1 year = 365.25 × 86,400 s</code></li>
 </ul>
+
+<p>
+All formulas operate strictly in SI units:
+</p>
+
+<ul>
+  <li>Distance → <b>meters (m)</b></li>
+  <li>Velocity → <b>meters per second (m/s)</b></li>
+  <li>Time → <b>seconds (s)</b></li>
+</ul>
+
+
+<h2>🧮 Physics Background</h2>
+
+<p>
+The <b>Hohmann transfer orbit</b> is the most energy-efficient two-impulse trajectory between two coplanar circular orbits around a central mass (e.g., the Sun).  
+This tool implements the following classical relations.
+</p>
+
+<h3>1. Gravitational Parameter (μ)</h3>
+<p>
+For the Sun: μ = G × M<sub>☉</sub>.  
+In the program: <code>GM_sun = G * M_sun</code>.
+</p>
+
+<h3>2. Mean Motion (n)</h3>
+<p>
+The average angular velocity of a body in circular orbit:
+</p>
+
+<pre><code>n = √(μ / r³)</code></pre>
+
+<p>
+The orbital period is related as:
+</p>
+
+<pre><code>T = 2π / n</code></pre>
+
+<h3>3. Circular Orbital Velocity (v<sub>c</sub>)</h3>
+<p>
+Velocity for a stable circular orbit of radius <i>r</i>:
+</p>
+
+<pre><code>v_c = √(μ / r)</code></pre>
+
+<h3>4. Vis-Viva Equation</h3>
+<p>
+The velocity at any point of an elliptical orbit:
+</p>
+
+<pre><code>v = √(μ * (2/r - 1/a))</code></pre>
+
+<p>
+where <i>a</i> is the semi-major axis of the orbit.
+</p>
+
+<h3>5. Hohmann Transfer Ellipse</h3>
+<p>
+Semi-major axis of the transfer orbit:
+</p>
+
+<pre><code>a_t = (r₁ + r₂) / 2</code></pre>
+
+<p>
+Transfer time (half-period of the ellipse):
+</p>
+
+<pre><code>t_transfer = π * √(a_t³ / μ)</code></pre>
+
+<h3>6. Δv Calculations (Heliocentric)</h3>
+
+<p>
+Departure (from r₁):</p>
+<pre><code>Δv_depart = |v_t(r₁) - v_c(r₁)|</code></pre>
+<pre><code>v_t(r₁) = √(μ * (2/r₁ - 1/a_t))</code></pre>
+
+<p>
+Arrival (at r₂):</p>
+<pre><code>Δv_arrive = |v_c(r₂) - v_t(r₂)|</code></pre>
+
+<p>
+Total heliocentric Δv:</p>
+<pre><code>Δv_total = Δv_depart + Δv_arrive</code></pre>
+
+<h3>7. LEO Escape Approximation</h3>
+
+<p>
+For missions starting from Earth orbit:</p>
+
+<pre><code>v_LEO = √(G * M_⊕ / r_LEO)
+v_esc = √(2 * G * M_⊕ / r_LEO)
+Δv_escape ≈ v_esc - v_LEO
+</code></pre>
+
+<p>
+This correction is added to the heliocentric Δv to approximate the total launch Δv requirement.
+</p>
+
+<h3>8. Phase Angle and Timing Geometry</h3>
+
+<p>
+Required phase angle at launch:</p>
+
+<pre><code>φ_required ≈ π - n₂ * t_transfer</code></pre>
+
+<p>
+Current phase difference:</p>
+
+<pre><code>Δθ_current = (θ₂ - θ₁)  (normalized to [0, 2π))</code></pre>
+
+<p>
+Relative angular velocity:</p>
+
+<pre><code>n_rel = n₂ - n₁</code></pre>
+
+<p>
+Wait time before optimal launch:</p>
+
+<pre><code>t_wait = normalize(φ_required - Δθ_current) / n_rel</code></pre>
+
+<p>
+If negative, the synodic period is added:
+</p>
+
+<pre><code>T_syn = 2π / |n_rel|</code></pre>
 
 <hr>
 
